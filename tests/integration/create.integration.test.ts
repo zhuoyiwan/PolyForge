@@ -132,6 +132,7 @@ describe("create integration matrix", () => {
     const grpcMain = await fs.readFile(path.join(root, "app6", "apps", "grpc-service", "cmd", "server", "main.go"), "utf8");
     const mqRoundtrip = await fs.readFile(path.join(root, "app6", "apps", "mq-worker", "scripts", "roundtrip.js"), "utf8");
     const checkScript = await fs.readFile(path.join(root, "app6", "infra", "scripts", "check.sh"), "utf8");
+    const devScript = await fs.readFile(path.join(root, "app6", "infra", "scripts", "dev.sh"), "utf8");
     expect(authServer).toContain("const port = Number(process.env.PORT || 8081)");
     expect(authServer).toContain("/auth/me");
     expect(bffServer).toContain("const port = Number(process.env.PORT || 3001)");
@@ -141,6 +142,8 @@ describe("create integration matrix", () => {
     expect(grpcMain).toContain("RegisterHealthServer");
     expect(mqRoundtrip).toContain("roundtrip ok");
     expect(checkScript).toContain("scaffold-mq-check");
+    expect(devScript).toContain("start_bg \"gateway-bff\"");
+    expect(devScript).toContain("starting frontend with ${PM}");
   });
 
   it("react frontend includes env/proxy/request wiring", async () => {

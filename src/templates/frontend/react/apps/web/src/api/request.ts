@@ -44,7 +44,20 @@ function makeErrorMessage(status: number, payload: unknown): string {
     const message = (payload as { message?: unknown }).message;
     if (typeof message === "string" && message.trim()) return message;
   }
+  if (typeof payload === "string" && payload.trim()) {
+    return payload.slice(0, 160);
+  }
   return `HTTP ${status}`;
+}
+
+async function parseResponseBody(response: Response): Promise<unknown> {
+  const text = await response.text();
+  if (!text.trim()) return null;
+  try {
+    return JSON.parse(text) as unknown;
+  } catch {
+    return text;
+  }
 }
 
 export async function requestJson<T = unknown>(url: string, options: RequestOptions = {}): Promise<ApiPayload<T>> {
@@ -70,7 +83,7 @@ export async function requestJson<T = unknown>(url: string, options: RequestOpti
         signal: controller.signal,
       });
 
-      const raw = (await response.json()) as unknown;
+      const raw = await parseResponseBody(response);
       if (!response.ok) {
         const retryable = response.status >= 500;
         const code = typeof raw === "object" && raw && "code" in raw ? Number((raw as { code: unknown }).code) : null;
@@ -81,6 +94,10 @@ export async function requestJson<T = unknown>(url: string, options: RequestOpti
           continue;
         }
         throw error;
+      }
+
+      if (!raw || typeof raw !== "object") {
+        throw new ApiRequestError("invalid non-JSON response body", response.status, null, null, response.status >= 500);
       }
 
       return raw as ApiPayload<T>;
