@@ -1,6 +1,7 @@
-# scaffold-hybrid-cli
+# PolyForge Scaffold CLI
 
-Hybrid full-stack scaffold CLI for `go-gin` and `springboot` with optional `python-worker`.
+PolyForge is a hybrid full-stack scaffold CLI for `go-gin` and `springboot`.
+CLI command remains `scaffold`.
 
 ## Commands
 
@@ -15,7 +16,7 @@ npm run smoke:e2e
 
 - `--frontend <react|vue|none>`
 - `--backend <go-gin|springboot>`
-- `--modules <python-worker>`
+- `--modules <python-worker,worker-go,gateway-bff,python-ai,grpc-service,mq,cache-redis,observability,auth-center>`
 - `--data <mysql,postgresql,redis,sqlite,mongodb,none>`
 - `--pm <pnpm|npm|yarn>`
 - `--install`
@@ -26,7 +27,7 @@ npm run smoke:e2e
 ### doctor options
 
 - `--backend <go-gin|springboot>`
-- `--modules <python-worker>`
+- `--modules <python-worker,worker-go,gateway-bff,python-ai,grpc-service,mq,cache-redis,observability,auth-center>`
 - `--data <mysql,postgresql,redis,sqlite,mongodb,none>`
 
 ## Development
@@ -36,3 +37,10 @@ npm run lint
 npm run test
 npm run build
 ```
+
+## Frontend Auto-Wiring
+
+- React/Vue templates include `.env.example` with API/BFF base URLs.
+- Vite dev server proxy routes `/api` -> backend API and `/bff` -> gateway-bff.
+- Frontend page includes demo requests for `/api/v1/ping` and `/bff/ping` with `X-Trace-Id`.
+- Frontend templates include `src/api/request.ts` (timeout/retry/error mapping), `src/api/services/*`, and `src/api/client.ts`.

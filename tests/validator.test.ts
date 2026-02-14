@@ -54,4 +54,13 @@ describe("validateConfig", () => {
     expect(result.valid).toBe(false);
     expect(result.errors.join(" ")).toContain("duplicates");
   });
+
+  it("rejects duplicated extra module selection", () => {
+    const config = baseConfig();
+    config.extraModules = ["python-worker", "python-worker"];
+
+    const result = validateConfig(config);
+    expect(result.valid).toBe(false);
+    expect(result.errors.join(" ")).toContain("extra modules contain duplicates");
+  });
 });

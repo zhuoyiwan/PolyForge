@@ -33,4 +33,29 @@ export async function maybeInstallDeps(config: CreateConfig): Promise<void> {
       }
     }
   }
+
+  if (config.extraModules.includes("gateway-bff")) {
+    const bffDir = path.join(config.targetDir, "apps", "gateway-bff");
+    if (existsSync(path.join(bffDir, "package.json"))) {
+      await run(config.packageManager, ["install"], bffDir);
+    }
+  }
+
+  if (config.extraModules.includes("auth-center")) {
+    const authDir = path.join(config.targetDir, "apps", "auth-center");
+    if (existsSync(path.join(authDir, "package.json"))) {
+      await run(config.packageManager, ["install"], authDir);
+    }
+  }
+
+  if (config.extraModules.includes("python-ai")) {
+    const pyAiDir = path.join(config.targetDir, "apps", "python-ai");
+    if (existsSync(path.join(pyAiDir, "requirements.txt"))) {
+      try {
+        await run("python3", ["-m", "pip", "install", "-r", "requirements.txt"], pyAiDir);
+      } catch {
+        console.warn("[scaffold] skip python-ai dependency install (python3/pip unavailable)");
+      }
+    }
+  }
 }

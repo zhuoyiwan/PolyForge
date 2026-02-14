@@ -1,6 +1,16 @@
 export const FRONTENDS = ["react", "vue", "none"] as const;
 export const BACKENDS = ["go-gin", "springboot"] as const;
-export const EXTRA_MODULES = ["python-worker"] as const;
+export const EXTRA_MODULES = [
+  "python-worker",
+  "worker-go",
+  "gateway-bff",
+  "python-ai",
+  "grpc-service",
+  "mq",
+  "cache-redis",
+  "observability",
+  "auth-center",
+] as const;
 export const DATA_MODULES = ["mysql", "postgresql", "redis", "sqlite", "mongodb", "none"] as const;
 export const PACKAGE_MANAGERS = ["pnpm", "npm", "yarn"] as const;
 

@@ -22,3 +22,11 @@ elif [[ -f apps/api/pom.xml ]]; then
     echo "[dev] maven missing, skip api startup"
   fi
 fi
+
+if [[ -f apps/gateway-bff/server.js ]]; then
+  echo "[dev] gateway-bff available at apps/gateway-bff"
+fi
+
+if [[ -f apps/python-ai/app/main.py ]]; then
+  echo "[dev] python-ai available at apps/python-ai"
+fi

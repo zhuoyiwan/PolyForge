@@ -1,0 +1,14 @@
+{
+  "name": "{{PROJECT_NAME}}-auth-center",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node -e \"console.log('auth-center build placeholder')\"",
+    "test": "node -e \"console.log('auth-center test placeholder')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

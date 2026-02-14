@@ -7,6 +7,7 @@ Implemented integration matrix:
 3. none + go-gin + sqlite
 4. react + springboot + sqlite + python-worker
 5. vue + go-gin + mongodb + python-worker
+6. go-gin + full module set (`python-worker,worker-go,gateway-bff,python-ai,grpc-service,mq,cache-redis,observability,auth-center`)
 
 All above are covered in `tests/integration/create.integration.test.ts`.
 

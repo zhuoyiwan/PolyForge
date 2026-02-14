@@ -26,4 +26,16 @@ if [[ -d apps/worker-python ]]; then
   fi
 fi
 
+if [[ -f apps/worker-go/go.mod ]]; then
+  if command -v go >/dev/null 2>&1; then
+    (cd apps/worker-go && go mod tidy && go test ./...)
+  fi
+fi
+
+if [[ -f apps/python-ai/app/main.py ]]; then
+  if command -v python3 >/dev/null 2>&1; then
+    python3 -m py_compile apps/python-ai/app/main.py
+  fi
+fi
+
 echo "[test] done"

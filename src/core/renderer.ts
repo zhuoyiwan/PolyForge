@@ -7,6 +7,7 @@ const TEXT_EXT = new Set([
   ".tsx",
   ".js",
   ".jsx",
+  ".vue",
   ".json",
   ".md",
   ".txt",
@@ -41,6 +42,7 @@ function replacements(config: CreateConfig): Record<string, string> {
     FRONTEND: config.frontend,
     DATA_MODULES: config.dataModules.join(", "),
     EXTRA_MODULES: config.extraModules.join(", ") || "none",
+    HAS_GATEWAY_BFF: String(config.extraModules.includes("gateway-bff")),
   };
 }
 
@@ -104,6 +106,18 @@ function dockerServices(config: CreateConfig): string {
   }
   if (config.extraModules.includes("python-worker")) {
     services.push(`  worker-python:\n    build:\n      context: ../apps/worker-python\n    command: python worker.py`);
+  }
+  if (config.extraModules.includes("worker-go")) {
+    services.push(`  worker-go:\n    build:\n      context: ../apps/worker-go\n    command: go run ./cmd/worker`);
+  }
+  if (config.extraModules.includes("gateway-bff")) {
+    services.push(`  gateway-bff:\n    build:\n      context: ../apps/gateway-bff\n    command: node server.js\n    ports:\n      - "3001:3001"`);
+  }
+  if (config.extraModules.includes("python-ai")) {
+    services.push(`  python-ai:\n    build:\n      context: ../apps/python-ai\n    command: uvicorn app.main:app --host 0.0.0.0 --port 8090\n    ports:\n      - "8090:8090"`);
+  }
+  if (config.extraModules.includes("auth-center")) {
+    services.push(`  auth-center:\n    image: node:20-alpine\n    working_dir: /app\n    volumes:\n      - ../apps/auth-center:/app\n    command: node server.js\n    ports:\n      - "8081:8081"`);
   }
   return services.join("\n\n");
 }

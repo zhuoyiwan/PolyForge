@@ -12,7 +12,10 @@ program
   .argument("<project-name>", "project name")
   .option("--frontend <frontend>", "react|vue|none")
   .option("--backend <backend>", "go-gin|springboot")
-  .option("--modules <modules>", "comma separated modules, e.g. python-worker")
+  .option(
+    "--modules <modules>",
+    "comma separated modules: python-worker,worker-go,gateway-bff,python-ai,grpc-service,mq,cache-redis,observability,auth-center",
+  )
   .option("--data <data>", "comma separated data modules")
   .option("--pm <pm>", "pnpm|npm|yarn")
   .option("--install", "install dependencies")

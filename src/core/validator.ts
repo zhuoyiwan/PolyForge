@@ -64,6 +64,10 @@ export function validateConfig(config: CreateConfig): ValidationResult {
   if (uniqueData.length !== config.dataModules.length) {
     errors.push("data modules contain duplicates");
   }
+  const uniqueModules = unique(config.extraModules);
+  if (uniqueModules.length !== config.extraModules.length) {
+    errors.push("extra modules contain duplicates");
+  }
 
   const hasNone = config.dataModules.includes("none");
   if (hasNone && config.dataModules.length > 1) {
@@ -76,6 +80,15 @@ export function validateConfig(config: CreateConfig): ValidationResult {
 
   if (config.extraModules.includes("python-worker")) {
     warnings.push("python-worker selected: ensure Python 3.10+ and venv tooling are available");
+  }
+  if (config.extraModules.includes("python-ai")) {
+    warnings.push("python-ai selected: ensure Python 3.10+ and model runtime dependencies are available");
+  }
+  if (config.extraModules.includes("grpc-service")) {
+    warnings.push("grpc-service selected: install protoc and language plugins for code generation");
+  }
+  if (config.extraModules.includes("mq")) {
+    warnings.push("mq selected: verify local broker runtime (Kafka/RabbitMQ/NATS) for integration testing");
   }
 
   return {

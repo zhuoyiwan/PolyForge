@@ -1,0 +1,13 @@
+{
+  "name": "{{PROJECT_NAME}}-gateway-bff",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node -e \"console.log('gateway-bff build placeholder')\"",
+    "test": "node -e \"console.log('gateway-bff test placeholder')\""
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

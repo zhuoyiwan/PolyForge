@@ -79,6 +79,62 @@ export function buildDoctorAdvice(checks: Record<string, CheckResult>, options: 
         : { label: "python-worker", status: "warn", detail: "Install Python 3.10+ for worker module." },
     );
   }
+  if (targets.modules.includes("worker-go")) {
+    advice.push(
+      has(checks, "go")
+        ? { label: "worker-go", status: "ok", detail: "Go toolchain detected for worker-go module." }
+        : { label: "worker-go", status: "warn", detail: "Install Go 1.22+ for worker-go module." },
+    );
+  }
+  if (targets.modules.includes("gateway-bff")) {
+    advice.push(
+      has(checks, "node") && has(checks, "npm")
+        ? { label: "gateway-bff", status: "ok", detail: "Node.js and npm detected for gateway-bff." }
+        : { label: "gateway-bff", status: "warn", detail: "Install Node.js 18+ and npm for gateway-bff module." },
+    );
+  }
+  if (targets.modules.includes("python-ai")) {
+    advice.push(
+      has(checks, "python3")
+        ? { label: "python-ai", status: "ok", detail: "Python detected for python-ai module." }
+        : { label: "python-ai", status: "warn", detail: "Install Python 3.10+ for python-ai module." },
+    );
+  }
+  if (targets.modules.includes("grpc-service")) {
+    advice.push(
+      has(checks, "protoc")
+        ? { label: "grpc-service", status: "ok", detail: "protoc detected for gRPC contract generation." }
+        : { label: "grpc-service", status: "warn", detail: "Install protoc for gRPC code generation." },
+    );
+  }
+  if (targets.modules.includes("mq")) {
+    advice.push(
+      has(checks, "docker")
+        ? { label: "mq", status: "ok", detail: "Docker detected for local MQ brokers." }
+        : { label: "mq", status: "warn", detail: "Install Docker to run Kafka/RabbitMQ/NATS locally." },
+    );
+  }
+  if (targets.modules.includes("cache-redis")) {
+    advice.push(
+      has(checks, "docker")
+        ? { label: "cache-redis", status: "ok", detail: "Docker detected for local Redis cache service." }
+        : { label: "cache-redis", status: "warn", detail: "Install Docker or run Redis manually." },
+    );
+  }
+  if (targets.modules.includes("observability")) {
+    advice.push(
+      has(checks, "docker")
+        ? { label: "observability", status: "ok", detail: "Docker detected for Prometheus/Grafana stack." }
+        : { label: "observability", status: "warn", detail: "Install Docker for local observability stack." },
+    );
+  }
+  if (targets.modules.includes("auth-center")) {
+    advice.push({
+      label: "auth-center",
+      status: "ok",
+      detail: "Remember to configure JWT secrets and OAuth clients before production.",
+    });
+  }
 
   if (targets.data.some((item) => item !== "none")) {
     advice.push(
@@ -101,6 +157,7 @@ export async function runDoctor(options: DoctorOptions = {}): Promise<void> {
     check("python3", "python3", ["--version"]),
     check("git", "git", ["--version"]),
     check("docker", "docker", ["--version"]),
+    check("protoc", "protoc", ["--version"]),
   ];
 
   const checks = Object.fromEntries(checksList.map((item) => [item.name, item])) as Record<string, CheckResult>;
