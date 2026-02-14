@@ -13,13 +13,27 @@ function run(cmd: string, args: string[], cwd: string): Promise<void> {
   });
 }
 
+async function installNodeDeps(pm: CreateConfig["packageManager"], cwd: string): Promise<void> {
+  try {
+    await run(pm, ["install"], cwd);
+    return;
+  } catch (error) {
+    if (pm === "npm") {
+      console.warn("[scaffold] npm install failed, retrying with --legacy-peer-deps");
+      await run("npm", ["install", "--legacy-peer-deps"], cwd);
+      return;
+    }
+    throw error;
+  }
+}
+
 export async function maybeInstallDeps(config: CreateConfig): Promise<void> {
   if (!config.installDeps) return;
 
   if (config.frontend !== "none") {
     const webDir = path.join(config.targetDir, "apps", "web");
     if (existsSync(path.join(webDir, "package.json"))) {
-      await run(config.packageManager, ["install"], webDir);
+      await installNodeDeps(config.packageManager, webDir);
     }
   }
 
@@ -37,14 +51,14 @@ export async function maybeInstallDeps(config: CreateConfig): Promise<void> {
   if (config.extraModules.includes("gateway-bff")) {
     const bffDir = path.join(config.targetDir, "apps", "gateway-bff");
     if (existsSync(path.join(bffDir, "package.json"))) {
-      await run(config.packageManager, ["install"], bffDir);
+      await installNodeDeps(config.packageManager, bffDir);
     }
   }
 
   if (config.extraModules.includes("auth-center")) {
     const authDir = path.join(config.targetDir, "apps", "auth-center");
     if (existsSync(path.join(authDir, "package.json"))) {
-      await run(config.packageManager, ["install"], authDir);
+      await installNodeDeps(config.packageManager, authDir);
     }
   }
 
@@ -62,7 +76,7 @@ export async function maybeInstallDeps(config: CreateConfig): Promise<void> {
   if (config.extraModules.includes("mq")) {
     const mqDir = path.join(config.targetDir, "apps", "mq-worker");
     if (existsSync(path.join(mqDir, "package.json"))) {
-      await run(config.packageManager, ["install"], mqDir);
+      await installNodeDeps(config.packageManager, mqDir);
     }
   }
 }

@@ -6,7 +6,7 @@ import { runList } from "./commands/list";
 
 const program = new Command();
 
-program.name("scaffold").description("Hybrid full-stack scaffold CLI").version("0.1.0");
+program.name("scaffold").description("Hybrid full-stack scaffold CLI").version("0.1.2");
 
 program
   .command("create")
