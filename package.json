@@ -11,7 +11,8 @@
     "dev": "tsx src/index.ts",
     "test": "vitest run --config vitest.config.ts",
     "test:watch": "vitest",
-    "lint": "tsc -p tsconfig.json --noEmit"
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "smoke:e2e": "node scripts/smoke-e2e.mjs"
   },
   "keywords": [
     "scaffold",

@@ -9,3 +9,9 @@ Implemented integration matrix:
 5. vue + go-gin + mongodb + python-worker
 
 All above are covered in `tests/integration/create.integration.test.ts`.
+
+End-to-end smoke command:
+
+```bash
+npm run smoke:e2e
+```

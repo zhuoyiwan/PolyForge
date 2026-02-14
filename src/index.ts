@@ -32,8 +32,11 @@ program
 program
   .command("doctor")
   .description("check local toolchain")
-  .action(async () => {
-    await runDoctor();
+  .option("--backend <backend>", "target backend for focused diagnostics: go-gin|springboot")
+  .option("--modules <modules>", "target extra modules, e.g. python-worker")
+  .option("--data <data>", "target data modules, e.g. mysql,redis")
+  .action(async (options) => {
+    await runDoctor(options);
   });
 
 program.parseAsync(process.argv);

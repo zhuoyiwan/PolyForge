@@ -8,6 +8,7 @@ Hybrid full-stack scaffold CLI for `go-gin` and `springboot` with optional `pyth
 npm run build
 node dist/index.js doctor
 node dist/index.js create my-app
+npm run smoke:e2e
 ```
 
 ### create options
@@ -21,6 +22,12 @@ node dist/index.js create my-app
 - `--git`
 - `--docker`
 - `--yes`
+
+### doctor options
+
+- `--backend <go-gin|springboot>`
+- `--modules <python-worker>`
+- `--data <mysql,postgresql,redis,sqlite,mongodb,none>`
 
 ## Development
 
