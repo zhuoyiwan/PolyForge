@@ -2,6 +2,7 @@
 import { Command } from "commander";
 import { runCreate } from "./commands/create";
 import { runDoctor } from "./commands/doctor";
+import { runList } from "./commands/list";
 
 const program = new Command();
 
@@ -40,6 +41,13 @@ program
   .option("--data <data>", "target data modules, e.g. mysql,redis")
   .action(async (options) => {
     await runDoctor(options);
+  });
+
+program
+  .command("list")
+  .description("list supported templates/modules and defaults")
+  .action(async () => {
+    await runList();
   });
 
 program.parseAsync(process.argv);

@@ -9,6 +9,7 @@ CLI command remains `scaffold`.
 npm run build
 node dist/index.js doctor
 node dist/index.js create my-app
+node dist/index.js list
 npm run smoke:e2e
 ```
 
