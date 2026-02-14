@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS sample_users (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);

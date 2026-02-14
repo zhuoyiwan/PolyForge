@@ -1,0 +1,11 @@
+{
+  "name": "{{PROJECT_NAME}}",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "bash infra/scripts/dev.sh",
+    "build": "bash infra/scripts/build.sh",
+    "test": "bash infra/scripts/test.sh",
+    "check": "bash infra/scripts/check.sh"
+  }
+}
