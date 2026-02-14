@@ -1,6 +1,6 @@
 {
   "name": "polyforge-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "PolyForge hybrid full-stack scaffold CLI for go-gin and springboot",
   "main": "dist/index.js",
   "files": [
