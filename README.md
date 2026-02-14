@@ -3,6 +3,17 @@
 PolyForge is a hybrid full-stack scaffold CLI for `go-gin` and `springboot`.
 CLI command remains `scaffold`.
 
+## Install
+
+```bash
+# one-off run
+npx polyforge-cli@latest list
+
+# global install
+npm i -g polyforge-cli
+scaffold list
+```
+
 ## Commands
 
 ```bash
@@ -37,6 +48,13 @@ npm run smoke:e2e
 npm run lint
 npm run test
 npm run build
+```
+
+## Publish To npm
+
+```bash
+npm login
+npm publish
 ```
 
 ## Frontend Auto-Wiring

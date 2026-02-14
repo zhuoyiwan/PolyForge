@@ -3,16 +3,27 @@
   "version": "0.1.0",
   "description": "PolyForge hybrid full-stack scaffold CLI for go-gin and springboot",
   "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "bin": {
     "scaffold": "dist/index.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "tsc -p tsconfig.json && rm -rf dist/templates && cp -R src/templates dist/templates",
     "dev": "tsx src/index.ts",
     "test": "vitest run --config vitest.config.ts",
     "test:watch": "vitest",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "smoke:e2e": "node scripts/smoke-e2e.mjs"
+    "smoke:e2e": "node scripts/smoke-e2e.mjs",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run lint && npm run test && npm run build"
   },
   "keywords": [
     "scaffold",
