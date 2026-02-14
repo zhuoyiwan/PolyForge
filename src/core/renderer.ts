@@ -119,6 +119,19 @@ function dockerServices(config: CreateConfig): string {
   if (config.extraModules.includes("auth-center")) {
     services.push(`  auth-center:\n    image: node:20-alpine\n    working_dir: /app\n    volumes:\n      - ../apps/auth-center:/app\n    command: node server.js\n    ports:\n      - "8081:8081"`);
   }
+  if (config.extraModules.includes("mq")) {
+    services.push(`  kafka:\n    image: bitnami/kafka:3.7\n    environment:\n      - KAFKA_CFG_NODE_ID=1\n      - KAFKA_CFG_PROCESS_ROLES=broker,controller\n      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER\n      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093\n      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092\n      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT\n      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093\n      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true\n    ports:\n      - "9092:9092"`);
+    services.push(`  rabbitmq:\n    image: rabbitmq:3-management\n    ports:\n      - "5672:5672"\n      - "15672:15672"`);
+    services.push(`  nats:\n    image: nats:2.10\n    ports:\n      - "4222:4222"`);
+  }
+  if (config.extraModules.includes("cache-redis") && !config.dataModules.includes("redis")) {
+    services.push(`  redis:\n    image: redis:7\n    ports:\n      - "6379:6379"`);
+  }
+  if (config.extraModules.includes("observability")) {
+    services.push(`  otel-collector:\n    image: otel/opentelemetry-collector:0.108.0\n    ports:\n      - "4317:4317"\n      - "4318:4318"`);
+    services.push(`  prometheus:\n    image: prom/prometheus:v2.54.1\n    ports:\n      - "9090:9090"`);
+    services.push(`  grafana:\n    image: grafana/grafana:11.1.5\n    ports:\n      - "3000:3000"`);
+  }
   return services.join("\n\n");
 }
 

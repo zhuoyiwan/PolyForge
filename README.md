@@ -63,3 +63,11 @@ npm publish
 - Vite dev server proxy routes `/api` -> backend API and `/bff` -> gateway-bff.
 - Frontend page includes demo requests for `/api/v1/ping` and `/bff/ping` with `X-Trace-Id`.
 - Frontend templates include `src/api/request.ts` (timeout/retry/error mapping), `src/api/services/*`, and `src/api/client.ts`.
+
+## Module Runtime Notes
+
+- `grpc-service`: includes runnable Go gRPC server skeleton and proto generation script.
+- `mq`: includes local broker compose (`kafka`, `rabbitmq`, `nats`) and producer/consumer sample scripts.
+- `cache-redis`: includes cache key convention and minimal cache client example.
+- `observability`: includes local compose (`otel-collector`, `prometheus`, `grafana`) and up/down scripts.
+- `auth-center`: includes JWT login/refresh/verify endpoints (minimal flow).

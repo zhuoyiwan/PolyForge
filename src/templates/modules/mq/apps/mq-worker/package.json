@@ -1,0 +1,16 @@
+{
+  "name": "{{PROJECT_NAME}}-mq-worker",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "consume": "node scripts/consumer.js",
+    "produce": "node scripts/producer.js",
+    "roundtrip": "node scripts/roundtrip.js",
+    "build": "node -e \"console.log('mq-worker build placeholder')\"",
+    "test": "node scripts/roundtrip.js"
+  },
+  "dependencies": {
+    "nats": "^2.29.1"
+  }
+}

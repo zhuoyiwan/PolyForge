@@ -114,10 +114,33 @@ describe("create integration matrix", () => {
     expect(await fs.pathExists(path.join(root, "app6", "apps", "python-ai", "app", "main.py"))).toBe(true);
     expect(await fs.pathExists(path.join(root, "app6", "contracts", "proto", "greeter.proto"))).toBe(true);
     expect(await fs.pathExists(path.join(root, "app6", "infra", "mq", "README.md"))).toBe(true);
+    expect(await fs.pathExists(path.join(root, "app6", "infra", "mq", "docker-compose.yml"))).toBe(true);
+    expect(await fs.pathExists(path.join(root, "app6", "apps", "mq-worker", "package.json"))).toBe(true);
+    expect(await fs.pathExists(path.join(root, "app6", "apps", "mq-worker", "scripts", "roundtrip.js"))).toBe(true);
     expect(await fs.pathExists(path.join(root, "app6", "infra", "cache", "README.md"))).toBe(true);
+    expect(await fs.pathExists(path.join(root, "app6", "infra", "cache", "examples", "cache-client.js"))).toBe(true);
     expect(await fs.pathExists(path.join(root, "app6", "infra", "observability", "README.md"))).toBe(true);
+    expect(await fs.pathExists(path.join(root, "app6", "infra", "observability", "docker-compose.yml"))).toBe(true);
+    expect(await fs.pathExists(path.join(root, "app6", "apps", "grpc-service", "cmd", "server", "main.go"))).toBe(true);
     expect(await fs.pathExists(path.join(root, "app6", "apps", "auth-center", "server.js"))).toBe(true);
     expect(await fs.pathExists(path.join(root, "app6", "infra", "docker", "docker-compose.yml"))).toBe(true);
+
+    const authServer = await fs.readFile(path.join(root, "app6", "apps", "auth-center", "server.js"), "utf8");
+    const bffServer = await fs.readFile(path.join(root, "app6", "apps", "gateway-bff", "server.js"), "utf8");
+    const workerGoTask = await fs.readFile(path.join(root, "app6", "apps", "worker-go", "internal", "tasks", "heartbeat.go"), "utf8");
+    const pyWorkerTask = await fs.readFile(path.join(root, "app6", "apps", "worker-python", "tasks", "sample_task.py"), "utf8");
+    const grpcMain = await fs.readFile(path.join(root, "app6", "apps", "grpc-service", "cmd", "server", "main.go"), "utf8");
+    const mqRoundtrip = await fs.readFile(path.join(root, "app6", "apps", "mq-worker", "scripts", "roundtrip.js"), "utf8");
+    const checkScript = await fs.readFile(path.join(root, "app6", "infra", "scripts", "check.sh"), "utf8");
+    expect(authServer).toContain("const port = Number(process.env.PORT || 8081)");
+    expect(authServer).toContain("/auth/me");
+    expect(bffServer).toContain("const port = Number(process.env.PORT || 3001)");
+    expect(bffServer).toContain("/bff/aggregate");
+    expect(workerGoTask).toContain("StatusDeadLetter");
+    expect(pyWorkerTask).toContain("disable_random");
+    expect(grpcMain).toContain("RegisterHealthServer");
+    expect(mqRoundtrip).toContain("roundtrip ok");
+    expect(checkScript).toContain("scaffold-mq-check");
   });
 
   it("react frontend includes env/proxy/request wiring", async () => {

@@ -30,3 +30,19 @@ fi
 if [[ -f apps/python-ai/app/main.py ]]; then
   echo "[dev] python-ai available at apps/python-ai"
 fi
+
+if [[ -f apps/auth-center/server.js ]]; then
+  echo "[dev] auth-center available at apps/auth-center"
+fi
+
+if [[ -f infra/mq/docker-compose.yml ]]; then
+  echo "[dev] mq stack available at infra/mq/docker-compose.yml"
+fi
+
+if [[ -f apps/mq-worker/package.json ]]; then
+  echo "[dev] mq-worker available at apps/mq-worker"
+fi
+
+if [[ -f infra/observability/docker-compose.yml ]]; then
+  echo "[dev] observability stack available at infra/observability/docker-compose.yml"
+fi

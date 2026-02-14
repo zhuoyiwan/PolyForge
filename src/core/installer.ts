@@ -58,4 +58,11 @@ export async function maybeInstallDeps(config: CreateConfig): Promise<void> {
       }
     }
   }
+
+  if (config.extraModules.includes("mq")) {
+    const mqDir = path.join(config.targetDir, "apps", "mq-worker");
+    if (existsSync(path.join(mqDir, "package.json"))) {
+      await run(config.packageManager, ["install"], mqDir);
+    }
+  }
 }
